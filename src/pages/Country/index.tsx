@@ -25,7 +25,6 @@ export const Country = () => {
       setLoading(true)
       let country = name ? await api.getCountry(param) : await api.getCountryByCode(param)
       setCountry(country)
-      console.log(country);
       setLoading(false);
    }
 

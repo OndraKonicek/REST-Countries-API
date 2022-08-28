@@ -8,6 +8,7 @@ import { CountryItem } from '../../components/CountryItem';
 export const Countries = () => {
    const [countries, setCountries] = useState<CountriesTS[]>([])
    const [loading, setLoading] = useState(false)
+   const [search, setSearch] = useState('')
 
    useEffect(() => {
       getAllCountries()
@@ -21,15 +22,25 @@ export const Countries = () => {
       setLoading(false)
    }
 
+   const lowerSearch = search.toLowerCase()
+
+   const filteredCountries = countries.filter(country => country
+      .name.common.toLowerCase().includes(search.toLowerCase()) || country
+         .region.toLowerCase().includes(search.toLowerCase())
+   )
+
    return (
       <S.Countries>
-         <Input />
+         <Input
+            value={search}
+            setSearch={setSearch}
+         />
          <div className="countries">
             {loading &&
                <div className='loading'>Loading...</div>
             }
             {!loading &&
-               countries.map((item, i) => (
+               filteredCountries.map((item, i) => (
                   <CountryItem
                      key={i}
                      name={item.name.common}
